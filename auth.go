@@ -85,13 +85,9 @@ func DecodeBase64Auth(auth AuthConfig) (string, string, error) {
 
 	decLen := base64.StdEncoding.DecodedLen(len(auth.Auth))
 	decoded := make([]byte, decLen)
-	n, err := base64.StdEncoding.Decode(decoded, []byte(auth.Auth))
+	_, err := base64.StdEncoding.Decode(decoded, []byte(auth.Auth))
 	if err != nil {
 		return "", "", fmt.Errorf("error decoding auth from file: %w", err)
-	}
-
-	if n != decLen {
-		return "", "", fmt.Errorf("decoded value does not match expected length, expected: %d, actual: %d", decLen, n)
 	}
 
 	split := strings.SplitN(string(decoded), ":", 2)
